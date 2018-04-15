@@ -16,10 +16,10 @@ class PagesSpider(CrawlSpider):
 
     start_urls = [
         "https://en.wikipedia.org/wiki/Internet",
-        "https://en.wikipedia.org/wiki/Java",
-        "https://en.wikipedia.org/wiki/Metallica",
-        "https://en.wikipedia.org/wiki/River",
-        "https://en.wikipedia.org/wiki/United_Nations",
+        "https://en.wikipedia.org/wiki/Computer_program",
+        "https://en.wikipedia.org/wiki/History",
+        "https://en.wikipedia.org/wiki/Geography",
+        "https://en.wikipedia.org/wiki/Mathematics",
     ]
 
     rules = (
@@ -33,6 +33,8 @@ class PagesSpider(CrawlSpider):
                                "https://en\.wikipedia\.org/wiki/Special.*"
                                "https://en\.wikipedia\.org/wiki/Category.*"
                                "https://en\.wikipedia\.org/wiki/Template.*"
+                               "https://en\.wikipedia\.org/wiki/Help.*"
+                               "https://en\.wikipedia\.org/wiki/Template_talk.*"
                            ],
                            restrict_xpaths="//div[@id='mw-content-text']//a[@href][position() < 100]",
                            ),
@@ -43,9 +45,10 @@ class PagesSpider(CrawlSpider):
 
     def parse_wikipedia_page(self, response):
         self.NUMBER_OF_URLS = self.NUMBER_OF_URLS - 1
+        print(self.NUMBER_OF_URLS)
 
-        if self.NUMBER_OF_URLS < 1:
-            raise CloseSpider('bandwidth_exceeded')
+        # if self.NUMBER_OF_URLS < 1:
+        #     raise CloseSpider('bandwidth_exceeded')
 
         item = WikipediaItem()
         soup = BeautifulSoup(response.body)
@@ -58,16 +61,21 @@ class PagesSpider(CrawlSpider):
 
         outgoing_urls = []
         for link in content.find_all('a', href=True):
-            # print(link.get('href'))
             href = link.get('href')
             if '/wiki/' in href \
                     and '/wiki/Main_Page' not in href \
-                    and '/File:' not in href \
-                    and '/Category:' not in href \
-                    and '/Template:' not in href \
-                    and '/Wikipedia:' not in href \
-                    and '/Portal:' not in href \
+                    and '/wiki/File:' not in href \
+                    and '/wiki/Wikipedia:' not in href \
+                    and '/wiki/Main_Page:' not in href \
+                    and '/wiki/Talk:' not in href \
+                    and '/wiki/Portal:' not in href \
+                    and '/wiki/Special:' not in href \
+                    and '/wiki/Category:' not in href \
+                    and '/wiki/Template:' not in href \
+                    and '/wiki/Help:' not in href \
+                    and '/wiki/Template_talk:' not in href \
                     and 'https://www.wikidata.org/wiki/' not in href \
+                    and 'https://' not in href \
                     and href not in outgoing_urls:
                 outgoing_urls.append(href)
 
