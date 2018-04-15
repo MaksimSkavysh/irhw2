@@ -14,36 +14,45 @@ class PagesSpider(CrawlSpider):
     allowed_domains = ["wikipedia.org"]
 
     start_urls = [
+        "https://en.wikipedia.org/wiki/Life",
+        "https://en.wikipedia.org/wiki/Internet",
+        "https://en.wikipedia.org/wiki/Earth",
+        "https://en.wikipedia.org/wiki/Bioinformatics",
+        "https://en.wikipedia.org/wiki/Music",
+
         # "https://en.wikipedia.org/wiki/Internet",
         # "https://en.wikipedia.org/wiki/Computer_program",
         # "https://en.wikipedia.org/wiki/History",
         # "https://en.wikipedia.org/wiki/Geography",
         # "https://en.wikipedia.org/wiki/Mathematics",
-        "https://en.wikipedia.org/wiki/Music",
-        "https://en.wikipedia.org/wiki/Continent",
-        "https://en.wikipedia.org/wiki/History",
-        "https://en.wikipedia.org/wiki/Probability_theory",
-        "https://en.wikipedia.org/wiki/Nature",
+
+        # "https://en.wikipedia.org/wiki/Music",
+        # "https://en.wikipedia.org/wiki/Continent",
+        # "https://en.wikipedia.org/wiki/History",
+        # "https://en.wikipedia.org/wiki/Probability_theory",
+        # "https://en.wikipedia.org/wiki/Nature",
     ]
 
     rules = (
-        Rule(LinkExtractor(allow="https://en\.wikipedia\.org/wiki/.+_.+",
+        Rule(LinkExtractor(allow="https://en\.wikipedia\.org/wiki/.*",
                            deny=[
                                "https://en\.wikipedia\.org/wiki/File.*"
                                "https://en\.wikipedia\.org/wiki/Wikipedia.*",
                                "https://en\.wikipedia\.org/wiki/Main_Page",
                                "https://en\.wikipedia\.org/wiki/Talk.*",
                                "https://en\.wikipedia\.org/wiki/Portal.*",
-                               "https://en\.wikipedia\.org/wiki/Special.*"
-                               "https://en\.wikipedia\.org/wiki/Category.*"
-                               "https://en\.wikipedia\.org/wiki/Template.*"
-                               "https://en\.wikipedia\.org/wiki/Help.*"
-                               "https://en\.wikipedia\.org/wiki/Template_talk.*"
-                               "https://en\.wikipedia\.org/wiki/User.*"
-                               "https://en\.wikipedia\.org/wiki/User_talk.*"
+                               "https://en\.wikipedia\.org/wiki/Special.*",
+                               "https://en\.wikipedia\.org/wiki/Category.*",
+                               "https://en\.wikipedia\.org/wiki/Template.*",
+                               "https://en\.wikipedia\.org/wiki/Help.*",
+                               "https://en\.wikipedia\.org/wiki/Template_talk.*",
+                               "https://en\.wikipedia\.org/wiki/User.*",
+                               "https://en\.wikipedia\.org/wiki/User_talk.*",
                            ],
-                           restrict_xpaths="(//div[@id='mw-content-text']//a[@href])[position() < 500]",
+                           restrict_xpaths="//div[@id='mw-content-text']//a[@href][position() < 100]",
+                           # restrict_xpaths="//*[@id='mw-content-text']",
                            ),
+             follow=True,
              callback='parse_wikipedia_page'),
     )
     #
