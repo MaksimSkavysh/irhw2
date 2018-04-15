@@ -81,7 +81,7 @@ def main():
 
     top_h, top_a, top_ha = get_HITS_top_10(G)
     print('\nTop HIST with hubs sort:')
-    print(top_h)
+    # print(top_h)
     print([top[0] for top in top_h])
     print('\nTop HIST with authorities sort:')
     print([top[0] for top in top_a])
