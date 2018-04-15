@@ -35,8 +35,10 @@ class PagesSpider(CrawlSpider):
                                "https://en\.wikipedia\.org/wiki/Template.*"
                                "https://en\.wikipedia\.org/wiki/Help.*"
                                "https://en\.wikipedia\.org/wiki/Template_talk.*"
+                               "https://en\.wikipedia\.org/wiki/User.*"
+                               "https://en\.wikipedia\.org/wiki/User_talk.*"
                            ],
-                           restrict_xpaths="//div[@id='mw-content-text']//a[@href][position() < 100]",
+                           restrict_xpaths="//div[@id='mw-content-text']//a/@href[position() < 200]",
                            ),
              callback='parse_wikipedia_page'),
     )
@@ -63,19 +65,20 @@ class PagesSpider(CrawlSpider):
         for link in content.find_all('a', href=True):
             href = link.get('href')
             if '/wiki/' in href \
-                    and '/wiki/Main_Page' not in href \
-                    and '/wiki/File:' not in href \
-                    and '/wiki/Wikipedia:' not in href \
-                    and '/wiki/Main_Page:' not in href \
-                    and '/wiki/Talk:' not in href \
-                    and '/wiki/Portal:' not in href \
-                    and '/wiki/Special:' not in href \
-                    and '/wiki/Category:' not in href \
-                    and '/wiki/Template:' not in href \
-                    and '/wiki/Help:' not in href \
-                    and '/wiki/Template_talk:' not in href \
-                    and 'https://www.wikidata.org/wiki/' not in href \
-                    and 'https://' not in href \
+                    and href.find("/wiki/User:") == -1\
+                    and href.find("/wiki/User_talk:") == -1\
+                    and href.find("/wiki/Main_Page:") == -1\
+                    and href.find("/wiki/File:") == -1\
+                    and href.find("/wiki/Wikipedia:") == -1\
+                    and href.find("/wiki/Main_Page:") == -1\
+                    and href.find("/wiki/Talk:") == -1\
+                    and href.find("/wiki/Portal:") == -1\
+                    and href.find("/wiki/Special:") == -1\
+                    and href.find("/wiki/Category:") == -1\
+                    and href.find("/wiki/Template:") == -1\
+                    and href.find("/wiki/Help:") == -1\
+                    and href.find("/wiki/Template_talk:") == -1\
+                    and href.find("/https://") == -1\
                     and href not in outgoing_urls:
                 outgoing_urls.append(href)
 
