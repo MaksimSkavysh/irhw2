@@ -1,3 +1,4 @@
+import sys
 import json
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -42,7 +43,7 @@ def get_top_10(G, alpha=0.85):
 
 
 def get_HITS_top_10(G):
-    h, a = nx.hits(G, max_iter=49, tol=1e-06)
+    h, a = nx.hits(G)
     ha_list = []
     for key in h:
         ha_list.append((key, h[key], a[key]))
@@ -54,8 +55,14 @@ def get_HITS_top_10(G):
 
 
 def main():
+
+    folder = './wiki.json'
+
+    if len(sys.argv) > 1:
+        folder = sys.argv[1]
+
     G = nx.DiGraph()
-    data = json.load(open('./wiki.json'))
+    data = json.load(open(folder))
     print('Number of pages:', len(data))
     for node in data:
         node['url'] = node['url'].replace('https://en.wikipedia.org', '')
