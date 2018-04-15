@@ -12,3 +12,4 @@ class WikipediaItem(scrapy.Item):
     url = scrapy.Field()
     name = scrapy.Field()
     description = scrapy.Field()
+    outgoing_urls = scrapy.Field()

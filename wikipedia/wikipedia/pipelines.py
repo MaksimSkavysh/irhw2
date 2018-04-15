@@ -7,5 +7,9 @@
 
 
 class WikipediaPipeline(object):
+    limit = 0
+
     def process_item(self, item, spider):
+        self.limit = self.limit + 1
+        print()
         return item
