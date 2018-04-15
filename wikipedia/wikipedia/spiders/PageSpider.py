@@ -14,16 +14,16 @@ class PagesSpider(CrawlSpider):
     allowed_domains = ["wikipedia.org"]
 
     start_urls = [
-        "https://en.wikipedia.org/wiki/Internet",
-        "https://en.wikipedia.org/wiki/Computer_program",
+        # "https://en.wikipedia.org/wiki/Internet",
+        # "https://en.wikipedia.org/wiki/Computer_program",
+        # "https://en.wikipedia.org/wiki/History",
+        # "https://en.wikipedia.org/wiki/Geography",
+        # "https://en.wikipedia.org/wiki/Mathematics",
+        "https://en.wikipedia.org/wiki/Music",
+        "https://en.wikipedia.org/wiki/Continent",
         "https://en.wikipedia.org/wiki/History",
-        "https://en.wikipedia.org/wiki/Geography",
-        "https://en.wikipedia.org/wiki/Mathematics",
-        "https: // en.wikipedia.org / wiki / Music",
-        "https: // en.wikipedia.org / wiki / Biology",
-        "https: // en.wikipedia.org / wiki / History",
-        "https: // en.wikipedia.org / wiki / Medicine",
-        "https: // en.wikipedia.org / wiki / Nature",
+        "https://en.wikipedia.org/wiki/Probability_theory",
+        "https://en.wikipedia.org/wiki/Nature",
     ]
 
     rules = (
@@ -42,16 +42,16 @@ class PagesSpider(CrawlSpider):
                                "https://en\.wikipedia\.org/wiki/User.*"
                                "https://en\.wikipedia\.org/wiki/User_talk.*"
                            ],
-                           restrict_xpaths="//div[@id='mw-content-text']//a[@href][position() < 200]",
+                           restrict_xpaths="(//div[@id='mw-content-text']//a[@href])[position() < 500]",
                            ),
              callback='parse_wikipedia_page'),
     )
     #
-    NUMBER_OF_URLS = 12000
+    NUMBER_OF_URLS = 0
 
     def parse_wikipedia_page(self, response):
-        self.NUMBER_OF_URLS = self.NUMBER_OF_URLS - 1
-        print(self.NUMBER_OF_URLS)
+        self.NUMBER_OF_URLS = self.NUMBER_OF_URLS + 1
+        print('\nNUMBER_OF_URLS:', self.NUMBER_OF_URLS)
 
         # if self.NUMBER_OF_URLS < 1:
         #     raise CloseSpider('bandwidth_exceeded')

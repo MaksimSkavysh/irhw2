@@ -9,6 +9,8 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+CLOSESPIDER_PAGECOUNT = 10000
+
 BOT_NAME = 'wikipedia'
 
 SPIDER_MODULES = ['wikipedia.spiders']
